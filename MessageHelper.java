@@ -44,4 +44,35 @@ public class MessageHelper {
     public static void closeLoadingDialog() {
         alertDialog.cancel();
     }
+    
+        /**
+     * Used to build a input that can be set as view of alertDialog
+     * steps:
+     * 1) EditText = MessageHelper.getInputToDialog()
+     * 2) FrameLayout container = new FrameLayout(context);
+     *    container.addView(input);
+     * 3) AlertDialog.Builder alert = new AlertDialog.Builder(this);
+     *    alert.setView(container);
+     * @return
+     */
+    public static EditText getInputToDialog() {
+        // setup input
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(dpToPixel(32), 0, dpToPixel(32), 0);
+        final EditText input = new EditText(context);
+        input.setLayoutParams(params);
+        input.setSingleLine(); // never call this method after setTransformatoinMethod
+        input.setTransformationMethod(PasswordTransformationMethod.getInstance()); // show as password
+
+        return input;
+    }
+
+
+    private static int dpToPixel(int dp) {
+        float density = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * density); // pixel value
+    }
 }
